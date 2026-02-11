@@ -11,6 +11,8 @@ By mimicking the behavior of real cloud infrastructure (AWS, Azure, GCP, etc.) o
 
 
 
+**Secrets & Environment**
+copy env.example -> .env
 
 docker compose --profile "*" down -v --remove-orphans 
 
