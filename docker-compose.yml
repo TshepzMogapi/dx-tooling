@@ -37,6 +37,29 @@ services:
       # Persistence for your UI settings/saved queries
       - pgadmin_data:/var/lib/pgadmin
 
+  dbt_core_cli:
+    container_name: dbt_core_cli
+    profiles: ["dbt"]
+    build:
+      context: ./services/dbt
+
+    volumes:
+      # Mount your local project directory (where your dbt project is) TODO: what if directory is outside the project 
+      - ${DBT_PROJECT_PATH}:/usr/app
+      # Mount your profiles file to be available inside the container
+      - ${DBT_PROJECT_PATH}/profiles.yml:/root/.dbt/profiles.yml
+      
+    ports:
+      - "8080:8080"
+    environment:
+      DBT_TARGET: dev
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    command: tail -f /dev/null    
+    
+
 volumes:
   postgres_data:
   pgadmin_data:
