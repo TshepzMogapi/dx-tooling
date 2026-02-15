@@ -1,0 +1,19 @@
+services:
+  dbt_core_cli:
+    build:
+      context: ./services/dbt
+    profiles: ["dbt"]
+    container_name: dbt_core_cli
+    volumes:
+      # Mount your local project directory (where your dbt project is)
+      - ${DBT_PROJECT_PATH}:/usr/app
+      # Mount your profiles file to be available inside the container
+      - ${DBT_PROJECT_PATH}/profiles.yml:/root/.dbt/profiles.yml
+    ports:
+      - "8080:8080"
+    environment:
+      DBT_TARGET: dev
+
+    depends_on:
+      - postgres
+    command: tail -f /dev/null

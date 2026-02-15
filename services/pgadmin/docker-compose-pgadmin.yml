@@ -1,0 +1,20 @@
+services:
+  pgadmin:
+    build:
+      context: ./
+    profiles: ["pgadmin"]
+    container_name: pgadmin_ui
+    environment:
+      # These are the credentials to log into the pgAdmin website
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      # Persistence for your UI settings/saved queries
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  pgadmin_data:
