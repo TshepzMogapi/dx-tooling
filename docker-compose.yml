@@ -1,6 +1,7 @@
 include:
-  - ./services/pgadmin/docker-compose-pgadmin.yml
   - ./services/dbt/docker-compose-dbt.yml
+  - ./services/airflow/docker-compose-airflow.yml
+  - ./.env.docker-compose-includes.yml # include custom docker compose files for apis, etc
 
 services:
   postgres:
@@ -17,7 +18,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}"]
       interval: 5s
